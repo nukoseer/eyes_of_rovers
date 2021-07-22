@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "102350450213",
+    "project_id": "eyes-of-rovers-9d954",
+    "storage_bucket": "eyes-of-rovers-9d954.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102350450213:android:f06e7dc1a5da3948f799cc",
+        "android_client_info": {
+          "package_name": "com.example.eyes_of_rovers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102350450213-0l8okiss7shq7paj03a6sba5hoh0m88k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNLrTuvSWOodA4cJbohr2g1TN9vCKF370"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102350450213-0l8okiss7shq7paj03a6sba5hoh0m88k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
