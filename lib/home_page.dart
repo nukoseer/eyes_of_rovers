@@ -23,98 +23,100 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => PhotoListModel(),
-      child: Consumer<PhotoListModel>(builder: (context, model, child) {
-        return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            onTap: (int index) {
-              model.resetCameraIndexAndPageIndex();
-            },
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.circle_lefthalf_fill),
-                label: model.rovers[0].name.capitalize,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.circle_fill),
-                label: model.rovers[1].name.capitalize,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.circle_righthalf_fill),
-                label: model.rovers[2].name.capitalize,
-              ),
-            ],
-          ),
-          tabBuilder: (BuildContext context, int index) {
-            return CupertinoTabView(
-              builder: (BuildContext context) {
-                return CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                    middle: Text(
-                        "${model.rovers[index].availableCameras[PhotoListModel.currentCameraIndex]}"),
-                    leading: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => UserAccountPage()));
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: NetworkImage(
-                              UserInformation.profilePictureUrl,
+    return Material(
+      child: ChangeNotifierProvider(
+        create: (context) => PhotoListModel(),
+        child: Consumer<PhotoListModel>(builder: (context, model, child) {
+          return CupertinoTabScaffold(
+            tabBar: CupertinoTabBar(
+              onTap: (int index) {
+                model.resetCameraIndexAndPageIndex();
+              },
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.circle_lefthalf_fill),
+                  label: model.rovers[0].name.capitalize,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.circle_fill),
+                  label: model.rovers[1].name.capitalize,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.circle_righthalf_fill),
+                  label: model.rovers[2].name.capitalize,
+                ),
+              ],
+            ),
+            tabBuilder: (BuildContext context, int index) {
+              return CupertinoTabView(
+                builder: (BuildContext context) {
+                  return CupertinoPageScaffold(
+                    navigationBar: CupertinoNavigationBar(
+                      middle: Text(
+                          "${model.rovers[index].availableCameras[PhotoListModel.currentCameraIndex]}"),
+                      leading: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UserAccountPage()));
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(
+                                UserInformation.profilePictureUrl,
+                              ),
                             ),
                           ),
                         ),
                       ),
+                      trailing: CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        child: Text("Camera Filter"),
+                        onPressed: () => {
+                          _cameraPicker(
+                              context, model.rovers[index].availableCameras),
+                        },
+                      ),
                     ),
-                    trailing: CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      child: Text("Camera Filter"),
-                      onPressed: () => {
-                        _cameraPicker(
-                            context, model.rovers[index].availableCameras),
-                      },
-                    ),
-                  ),
-                  child: GestureDetector(
-                    onHorizontalDragEnd: (DragEndDetails details) {
-                      if (details.primaryVelocity! > 0) {
-                        // NOTE: Swipe Left
-                        model.previousPage();
-                      } else if (details.primaryVelocity! < 0) {
-                        // NOTE: Swipe Right
-                        model.nextPage();
-                      }
-                    },
-                    child: FutureBuilder<List<Photo>>(
-                      future: model.fetchPhotos(http.Client(), index),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text("ERROR!"));
-                        }
-                        if (snapshot.hasData) {
-                          return PhotosList(photos: snapshot.data!);
-                        } else {
-                          return Center(
-                            child: CupertinoActivityIndicator(
-                              radius: 16.0,
-                            ),
-                          );
+                    child: GestureDetector(
+                      onHorizontalDragEnd: (DragEndDetails details) {
+                        if (details.primaryVelocity! > 0) {
+                          // Swipe Left
+                          model.previousPage();
+                        } else if (details.primaryVelocity! < 0) {
+                          // Swipe Right
+                          model.nextPage();
                         }
                       },
+                      child: FutureBuilder<List<Photo>>(
+                        future: model.fetchPhotos(http.Client(), index),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Center(child: Text("ERROR!"));
+                          }
+                          if (snapshot.hasData) {
+                            return PhotosList(photos: snapshot.data!);
+                          } else {
+                            return Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 16.0,
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      }),
+                  );
+                },
+              );
+            },
+          );
+        }),
+      ),
     );
   }
 
@@ -199,13 +201,16 @@ class PhotosList extends StatelessWidget {
             mainAxisSpacing: 4.0,
             crossAxisSpacing: 4.0,
           )
-        : Center(
-            child: Material(
-              child: Text(
-                "No photos found",
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
+        : Container(
+            alignment: Alignment.center,
+            color: Colors.transparent,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Text(
+              "No photos found",
+              style: TextStyle(
+                fontFamily: "Century Gothic",
+                fontSize: 20.0,
               ),
             ),
           );

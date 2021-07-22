@@ -19,7 +19,6 @@ class Photo {
   final int cameraId;
   final String cameraName;
   final String cameraFullName;
-  //
 
   // Rover
   final int roverId;
@@ -27,7 +26,6 @@ class Photo {
   final String landingDate;
   final String launchDate;
   final String status;
-  //
 
   Photo({
     required this.id,

@@ -12,7 +12,6 @@ class UserInformation {
       "https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png";
   static String bigProfilePictureUrl =
       "https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png";
-  //"https://i.stack.imgur.com/l60Hf.png";
 }
 
 class Authenticate {
