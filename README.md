@@ -3,7 +3,7 @@
 <li> Login with Facebook
 <li> View photos taken from rovers' cameras
 <li> Filter photos by different rovers' cameras
-<li> Swipe left/right to the next/previous photo page (if page exists)
+<li> Swipe left/right to the previous/next photo page (if page exists)
 <li> View user picture, name and email
 </ul>
 
